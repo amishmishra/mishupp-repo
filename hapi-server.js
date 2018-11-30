@@ -6,7 +6,11 @@ const knex = require("knex")({
     client: "pg",
     connection: {
         host: "localhost",
-        database: "ui-data"
+        database: "ui-data",
+        host: "faraday.cse.taylor.edu",
+        database: "amish_mishra",
+        user:"amish_mishra",
+        password: "bonepoje"
     }
 });
 
