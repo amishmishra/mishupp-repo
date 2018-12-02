@@ -120,7 +120,7 @@ async function init() {
                 }
                 return knex("members").select("email");
             }
-        },
+        }
         // {
         //     method: "GET",
         //     path: "/{param*}",
