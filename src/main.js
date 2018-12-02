@@ -9,6 +9,7 @@ import "vuetify/dist/vuetify.min.css";
 import "material-design-icons-iconfont/dist/material-design-icons.css";
 
 import Home from "./pages/Home.vue";
+import Login from "./pages/Login.vue";
 import SignUp from "./pages/SignUp.vue";
 import About from "./pages/About.vue";
 import Accounts from "./pages/Accounts.vue";
@@ -20,6 +21,7 @@ const router = new VueRouter({
     mode: "history",
     routes: [
         {name: "home-page", path: "/", component: Home},
+        {name: "login", path: "/login", component: Login},
         {name: "sign-up", path: "/sign-up", component: SignUp},
         {name: "about-us", path: "/about-us", component: About},
         {name: "accounts", path: "/accounts", component: Accounts}
@@ -29,7 +31,10 @@ const router = new VueRouter({
 import App from "./App.vue";
 
 new Vue({
-    el: "#app",
-    router,
-    render: h => h(App)
+   el: "#app",
+   data: {
+       currentUser: null
+   },
+   router,
+   render: h => h(App)
 });
