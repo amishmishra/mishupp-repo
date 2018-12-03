@@ -9,12 +9,20 @@
 
 export default {
     name: "HomePage",
+    methods: {
+        redirect: function() {
+            if(!this.$root.currentUser) this.$router.push({name: "login"});
+        }
+    },
+    beforeMount(){
+        this.redirect();
+    },
     computed: {
         currentUser: function() {
             if (this.$root.currentUser) {
                 return this.$root.currentUser;
             } else {
-                return "No one logged in";
+                return "no one logged in";
             }
         }
    }

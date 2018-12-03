@@ -31,5 +31,32 @@
 
             </v-list>
         </v-menu>
+        <v-btn flat v-if="$root.currentUser" v-on:click="logout()">Log Out</v-btn>
     </v-toolbar>
 </template>
+<script>
+export default {
+    name: "NavBar",
+    methods: {
+        redirect: function() {
+            if(!this.$root.currentUser) this.$router.push({name: "login"});
+        },
+        logout: function() {
+            this.$root.currentUser = null;
+            this.redirect();
+        }
+    },
+    beforeMount(){
+        this.redirect();
+    },
+    computed: {
+        currentUser: function() {
+            if (this.$root.currentUser) {
+                return this.$root.currentUser;
+            } else {
+                return "no one logged in";
+            }
+        }
+   }
+}
+</script>
