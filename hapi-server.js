@@ -110,15 +110,19 @@ async function init() {
                 let resultSet = await knex("members")
                     .select()
                     .where("email", request.payload.email);
-                console.log(resultSet);
                 if (resultSet.length > 0) {
-                    // if(resultSet)
-                    return {
-                        ok: true,
-                        msge: `The account '${request.payload.email}' is already in use`
+                    resultSet = resultSet[0];
+                    if(resultSet.password == request.payload.password){
+                        return {
+                            ok: true,
+                            msge: `Welcome '${request.payload.email}'`
+                        }
                     };
                 }
-                return knex("members").select("email");
+                return {
+                    ok: false,
+                    msge: `Your email or Password are incorrect.`
+                };
             }
         }
         // {

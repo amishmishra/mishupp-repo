@@ -95,7 +95,8 @@ export default {
                 .then(result => {
                     if (result.status === 200) {
                         if (result.data.ok) {
-				
+                            this.$root.currentUser = this.email;
+			
                             this.showDialog("Success", result.data.msge);
                         } else {
                             this.showDialog("Sorry", result.data.msge);
