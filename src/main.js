@@ -11,7 +11,7 @@ import "material-design-icons-iconfont/dist/material-design-icons.css";
 import Home from "./pages/Home.vue";
 import Login from "./pages/Login.vue";
 import SignUp from "./pages/SignUp.vue";
-import About from "./pages/About.vue";
+import CoreHours from "./pages/Core.vue";
 import Accounts from "./pages/Accounts.vue";
 
 import VueRouter from "vue-router";
@@ -22,7 +22,7 @@ const router = new VueRouter({
     routes: [
         {name: "login", path: "/", component: Login},
         {name: "sign-up", path: "/sign-up", component: SignUp},
-        {name: "about-us", path: "/about-us", component: About},
+        {name: "core", path: "/core", component: CoreHours},
         {name: "accounts", path: "/accounts", component: Accounts}
     ]
 });
