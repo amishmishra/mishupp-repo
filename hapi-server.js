@@ -39,7 +39,7 @@ async function init() {
     });
 
     // Configure static file service.
-    await server.register(require("inert"));
+    await server.register([require("inert"), require("lout"), require("vision")]);
 
     // Configure routes.
     server.route([
