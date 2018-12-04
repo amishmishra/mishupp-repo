@@ -142,7 +142,7 @@ async function init() {
                     .from("teams AS t")
                     .innerJoin("members_teams AS mt",  "mt.team_name","t.team_name")
                     .where("email",email);
-                    console.log(resultSet);
+                    // console.log(resultSet);
                     let teamNames = [];
                     for(i = 0; i < resultSet.length; i++){
                         teamNames.push(resultSet[i].team_name);
@@ -155,7 +155,7 @@ async function init() {
                     .from("members AS m")
                     .innerJoin("members_teams AS mt",  "mt.email","m.email")
                     .where("team_name", team);
-                    console.log(resultSet);
+                    // console.log(resultSet);
                     let members = [];
                     for(i = 0; i < resultSet.length; i++){
                         members.push(resultSet[i].email);
@@ -175,18 +175,15 @@ async function init() {
                 let emailDetails = await knex("core_hours")
                     .select()
                     .where("email", email);
-                    console.log("Email details:"+emailDetails);
                 if (emailDetails.length > 0) {
                     emailDetails = emailDetails[0];
-                    return {
-                        ok: true,
-                        msge: `Welcome '${email}'`
-                    }
+                    // console.log(emailDetails);
+                    return emailDetails;
                 }
 
                 return {
                     ok: false,
-                    msge: `Your email or Password are incorrect.`
+                    msge: `No core hours found.`
                 };
             }
         },

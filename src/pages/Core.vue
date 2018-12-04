@@ -4,20 +4,28 @@
 
         <instructions details="Add your core hours below." />
 
-        <v-form v-model="valid">
+        <v-form>
+            <v-container grid-list-md text-xs-center>
+            <v-layout row wrap>
+            <v-flex xs6>
             <v-text-field
-                v-model="email"
                 error-count="10"
-                type="email"
-                label="Your email address"
+                type="dateTime"
+                label="Start date and time"
             >
             </v-text-field>
-            <v-btn v-bind:disabled="!valid" v-on:click="handleSubmit"
+            </v-flex>
+            <v-flex xs6>
+            <datetime v-model="date"></datetime>
+            </v-flex>
+            </v-layout>
+            </v-container>
+            <v-btn v-bind:disabled="false" v-on:click="handleSubmit"
                 >Set
             </v-btn>
         </v-form>
 
-        <div class="text-xs-center">
+        <!-- <div class="text-xs-center">
             <v-dialog v-model="dialogVisible" width="500">
                 <v-card>
                     <v-card-title class="headline grey lighten-2" primary-title>
@@ -36,10 +44,11 @@
                     </v-card-actions>
                 </v-card>
             </v-dialog>
-       </div>
-       <v-data-table v-bind:headers="headers" v-bind:items="core_hours">
+       </div> -->
+       <v-data-table v-bind:headers="headers" v-bind:items="coreHours">
             <template slot="items" slot-scope="props">
-                <td>{{ props.item.coreHours }}</td>
+                <td>{{ props.item.startCoreHours }}</td>
+                <td>{{ props.item.endCoreHours }}</td>
             </template>
         </v-data-table>
        <p>{{ currentUser }}</p>
@@ -69,8 +78,9 @@ export default {
                 email: this.$root.currentUser
             }
         }).then(response => {
-            this.core_hours = response.data.map(core_hours => ({
-                coreHours: core_hours
+            this.coreHours = response.data.map(row => ({
+                startCoreHours: row.start_date_time,
+                endCoreHours: row.end_date_time
             }));
         });
     },
