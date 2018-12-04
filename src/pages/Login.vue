@@ -23,7 +23,7 @@
             >
             </v-text-field>
             <v-btn v-bind:disabled="!valid" v-on:click="handleSubmit"
-                >Sign Up
+                >Login
             </v-btn>
         </v-form>
 
@@ -96,8 +96,8 @@ export default {
                     if (result.status === 200) {
                         if (result.data.ok) {
                             this.$root.currentUser = this.email;
-			
-                            this.showDialog("Success", result.data.msge);
+                            this.$router.push({name: "home-page"});
+                            //this.showDialog("Success", result.data.msge);
                         } else {
                             this.showDialog("Sorry", result.data.msge);
                         }

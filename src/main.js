@@ -12,7 +12,7 @@ import Home from "./pages/Home.vue";
 import Login from "./pages/Login.vue";
 import SignUp from "./pages/SignUp.vue";
 import CoreHours from "./pages/Core.vue";
-import Accounts from "./pages/Accounts.vue";
+import Teams from "./pages/Teams.vue";
 
 import VueRouter from "vue-router";
 
@@ -24,7 +24,11 @@ const router = new VueRouter({
         {name: "home-page", path: "/home", component: Home},
         {name: "sign-up", path: "/sign-up", component: SignUp},
         {name: "core", path: "/core", component: CoreHours},
-        {name: "accounts", path: "/accounts", component: Accounts}
+        {name: "teams", path: "/teams", component: Teams},
+        // Return home to check implementation need to create vue pages
+        {name: "join-team", path: "/join_team", component: Home},
+        {name: "create-team", path: "/create_team", component: Home}
+
     ]
 });
 
@@ -33,7 +37,7 @@ import App from "./App.vue";
 new Vue({
    el: "#app",
    data: {
-       currentUser: null
+       currentUser: "alice@fake.com"
    },
    router,
    render: h => h(App)

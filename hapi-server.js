@@ -112,19 +112,48 @@ async function init() {
                     .where("email", request.payload.email);
                 if (resultSet.length > 0) {
                     resultSet = resultSet[0];
-                    if(resultSet.password == request.payload.password){
+                    console.log(resultSet);
+                    if(resultSet.password === request.payload.password){
                         return {
                             ok: true,
                             msge: `Welcome '${request.payload.email}'`
                         }
-                    };
+                    } 
                 }
+
                 return {
                     ok: false,
                     msge: `Your email or Password are incorrect.`
                 };
             }
+        },
+        {
+            method: "GET",
+            path: "/api/teams",
+            config: {
+                description: "Get current member active teams"
+            },
+            handler: async (request, h) => {
+                let resultSet = await knex("teams")
+                .select()
+                .from("teams AS t")
+                .innerJoin("members AS m", "m.email", "t.teamname")
+                .where("email", "bob@fake.com");
+                console.log(resultSet);
+
+                return resultSet;
+            }
         }
+        // {
+        //     method: "GET",
+        //     path: "/api/accounts",
+        //     config: {
+        //         description: "Retrieve all accounts"
+        //     },
+        //     handler: async (request, h) => {
+        //         return knex("accounts").select("email", "firstname", "lastname");
+        //     }
+        // },
         // {
         //     method: "GET",
         //     path: "/{param*}",
