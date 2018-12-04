@@ -143,7 +143,33 @@ async function init() {
 
                 return resultSet;
             }
-        }
+        },
+        {
+            method: "GET",
+            path: "/api/core_hours",
+            config: {
+                description: "Get the core hours of an email",
+            },
+            handler: async (request, h) => {
+                let email = request.query.email;
+                let emailDetails = await knex("core_hours")
+                    .select()
+                    .where("email", email);
+                    console.log("Email details:"+emailDetails);
+                if (emailDetails.length > 0) {
+                    emailDetails = emailDetails[0];
+                    return {
+                        ok: true,
+                        msge: `Welcome '${email}'`
+                    }
+                }
+
+                return {
+                    ok: false,
+                    msge: `Your email or Password are incorrect.`
+                };
+            }
+        },
         // {
         //     method: "GET",
         //     path: "/api/accounts",
