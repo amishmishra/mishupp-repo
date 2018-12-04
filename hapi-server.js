@@ -12,6 +12,78 @@ const knex = require("knex")({
     }
 });
 
+// Objection
+objection = require('objection');
+const Model = objection.Model;
+Model.knex(knex);
+
+class Member extends Model {
+    static get tableName() {
+        return 'members';
+    }
+    static get relationMappings() {
+        return {
+            teams: {
+                relation: Model.ManyToManyRelation,
+                modelClass: Team,
+                join: {
+                    from: 'members.email',
+                    through: {
+                        from: 'members_teams.email',
+                        to: 'members_teams.team_name'
+                    },
+                    to: 'teams.team_name'
+                }
+            }
+        }
+    }
+}
+
+class MemberTeam extends Model {
+    static get tableName() {
+        return 'members_teams';
+    }
+}
+
+class Team extends Model {
+    static get tableName() {
+        return 'teams';
+    }
+}
+
+class CoreHour extends Model {
+    static get tableName() {
+        return 'core_hours';
+    }
+}
+
+// function test() {
+//     return new Promise((resolve, reject) => {
+//         Member.query()
+//         .then(members => {
+//             const memberArray = [];
+//             members.forEach(member => {
+//                 console.log(member);
+//             });
+//             knex.destroy();
+//             resolve(memberArray);
+//         })
+//         .catch(err => reject(err));
+//     });
+// }
+// test();
+
+Member.query()
+.select('email')
+.first()
+.then(member => {
+    console.log(member);
+    return member.$relatedQuery('teams');
+})
+.then(teams => teams.forEach(team => console.log("Team Name:", team.team_name)))
+.catch(error => console.log(error.message));
+
+
 // Hapi
 const Joi = require("joi"); // Input validation
 const Hapi = require("hapi"); // Server
@@ -137,12 +209,23 @@ async function init() {
                 let email = request.query.email;
                 let team = request.query.teamName;
                 if(email!=null){
-                    let resultSet = await knex("teams")
-                    .select()
-                    .from("teams AS t")
-                    .innerJoin("members_teams AS mt",  "mt.team_name","t.team_name")
-                    .where("email",email);
-                    // console.log(resultSet);
+                    let resultSet;
+                    console.log(request.query.include);
+                    if(request.query.include){
+                        resultSet = await knex("teams")
+                        .select()
+                        .from("teams AS t")
+                        .innerJoin("members_teams AS mt",  "mt.team_name","t.team_name")
+                        .where("email",email);
+                    } else {
+                        resultSet = await knex("teams")
+                        .select()
+                        .from("teams AS t")
+                        .innerJoin("members_teams AS mt",  "mt.team_name","t.team_name")
+                        .where("email","!=",email);
+                    }
+
+                    console.log(resultSet);
                     let teamNames = [];
                     for(i = 0; i < resultSet.length; i++){
                         teamNames.push(resultSet[i].team_name);

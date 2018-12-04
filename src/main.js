@@ -16,7 +16,7 @@ import Login from "./pages/Login.vue";
 import SignUp from "./pages/SignUp.vue";
 import CoreHours from "./pages/Core.vue";
 import Teams from "./pages/Teams.vue";
-
+import JoinTeam from "./pages/JoinTeam.vue";
 import VueRouter from "vue-router";
 
 Vue.use(VueRouter);
@@ -29,7 +29,7 @@ const router = new VueRouter({
         {name: "core", path: "/core", component: CoreHours},
         {name: "teams", path: "/teams", component: Teams},
         // Return home to check implementation need to create vue pages
-        {name: "join-team", path: "/join_team", component: Home},
+        {name: "join-team", path: "/join_team", component: JoinTeam},
         {name: "create-team", path: "/create_team", component: Home}
 
     ]
