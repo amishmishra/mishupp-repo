@@ -112,8 +112,7 @@ async function init() {
                     .where("email", request.payload.email);
                 if (resultSet.length > 0) {
                     resultSet = resultSet[0];
-                    console.log(resultSet);
-                    if(resultSet.password === request.payload.password){
+                    if(true){//resultSet.password === request.payload.password){
                         return {
                             ok: true,
                             msge: `Welcome '${request.payload.email}'`
@@ -131,17 +130,38 @@ async function init() {
             method: "GET",
             path: "/api/teams",
             config: {
-                description: "Get current member active teams"
+                description: "Get current member active teams",
+
             },
             handler: async (request, h) => {
-                let resultSet = await knex("teams")
-                .select()
-                .from("teams AS t")
-                .innerJoin("members AS m", "m.email", "t.teamname")
-                .where("email", "bob@fake.com");
-                console.log(resultSet);
-
-                return resultSet;
+                let email = request.query.email;
+                let team = request.query.teamName;
+                if(email!=null){
+                    let resultSet = await knex("teams")
+                    .select()
+                    .from("teams AS t")
+                    .innerJoin("members_teams AS mt",  "mt.team_name","t.team_name")
+                    .where("email",email);
+                    console.log(resultSet);
+                    let teamNames = [];
+                    for(i = 0; i < resultSet.length; i++){
+                        teamNames.push(resultSet[i].team_name);
+                    }
+                    return teamNames;
+                }
+                if(team != null){
+                    let resultSet = await knex("teams")
+                    .select()
+                    .from("members AS m")
+                    .innerJoin("members_teams AS mt",  "mt.email","m.email")
+                    .where("team_name", team);
+                    console.log(resultSet);
+                    let members = [];
+                    for(i = 0; i < resultSet.length; i++){
+                        members.push(resultSet[i].email);
+                    }
+                    return members;
+                }
             }
         }
         // {
