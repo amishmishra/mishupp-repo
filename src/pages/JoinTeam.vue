@@ -1,19 +1,13 @@
 <template>
     <div>
-        <h4 class="display-1">Teams</h4>
-        <instructions details="Click team to see members." />
+        <h4 class="display-1">Join Teams</h4>
+        <instructions details="Click team to join." />
 
         <v-data-table v-bind:headers="teamHeaders" v-bind:items="teams">
             <template slot="items" slot-scope="props">
                 <td v-on:click="getMembers(props.item.team)">{{ props.item.team }}</td>
             </template>
         </v-data-table>
-        <v-btn v-on:click="jcTeam('join-team')"
-            >Join Team
-        </v-btn>
-        <v-btn v-on:click="jcTeam('create-team')"
-            >Create Team
-        </v-btn>
 
         <div class="text-xs-center">
             <v-dialog v-model="dialogVisible" width="500">
@@ -34,11 +28,11 @@
 
                     <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn color="primary" flat v-on:click="leave(currentTeam)"
-                            >Leave Team</v-btn
+                        <v-btn color="primary" flat v-on:click="join(currentTeam)"
+                            >Join Team</v-btn
                         >
-                        <v-btn color="primary" flat v-on:click="hideDialog"
-                            >Continue</v-btn
+                        <v-btn color="secondary" flat v-on:click="hideDialog"
+                            >Leave</v-btn
                         >
                     </v-card-actions>
                 </v-card>
@@ -51,12 +45,11 @@
 <script>
     const axios = require("axios");
     import Instructions from "../components/Instructions.vue";
-
     export default {
         name: "Teams",
         components: {
             Instructions
-        },
+    },
         data: function () {
             return {
                 teamHeaders: [
@@ -70,6 +63,7 @@
                 ],
                 members: [],
                 currentTeam: "",
+                
                 dialogHeader: "<no dialogHeader>",
                 dialogText: "<no dialogText>",
                 dialogVisible: false,
@@ -78,8 +72,7 @@
         mounted: function () {
             axios.get("/api/teams", {
                 params: {
-                    email: this.$root.currentUser,
-                    include: 'true'
+                    email: this.$root.currentUser
                 }
             })
             .then(response => {
@@ -89,9 +82,6 @@
             });
         },
         methods: {
-            jcTeam: function(path) {
-                this.$router.push({name: path});
-            },
             getMembers: function(teamName){
                 this.memberHeaders[0].text = teamName,
                 this.currentTeam = teamName;
@@ -116,11 +106,10 @@
             hideDialog: function() {
                 this.dialogVisible = false;
             },
-            leave: function(teamName) {
+            join: function(teamName) {
                 console.log(teamName);
                 this.hideDialog();
             }
-            
         }
         
     };
