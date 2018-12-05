@@ -8,15 +8,9 @@
             <v-container grid-list-md text-xs-center>
             <v-layout row wrap>
             <v-flex xs6>
-            <v-text-field
-                error-count="10"
-                type="dateTime"
-                label="Start date and time"
-            >
-            </v-text-field>
+            <datetime type="datetime" v-model="datetime"></datetime>
             </v-flex>
             <v-flex xs6>
-            <datetime v-model="date"></datetime>
             </v-flex>
             </v-layout>
             </v-container>
@@ -58,10 +52,14 @@
 <script>
 import Instructions from "../components/Instructions.vue";
 import axios from "axios";
+import { Datetime } from 'vue-datetime';
+// Vue.use(Datetime);
+
 export default {
     name: "CoreHours",
     components: {
-        Instructions
+        Instructions,
+        Datetime
     },
     data: function() {
         return {
@@ -78,7 +76,8 @@ export default {
                 email: this.$root.currentUser
             }
         }).then(response => {
-            this.coreHours = response.data.map(row => ({
+            this.coreHours = response.data.map(row =>(  
+                {
                 startCoreHours: row.start_date_time,
                 endCoreHours: row.end_date_time
             }));

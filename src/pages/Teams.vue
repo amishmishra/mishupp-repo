@@ -117,7 +117,7 @@
                 this.dialogVisible = false;
             },
             leave: function(teamName) {
-                console.log(teamName);
+                // console.log(teamName);
                 this.hideDialog();
             }
             

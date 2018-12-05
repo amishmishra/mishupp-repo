@@ -259,7 +259,6 @@ async function init() {
                     .select()
                     .where("email", email);
                 if (emailDetails.length > 0) {
-                    emailDetails = emailDetails[0];
                     // console.log(emailDetails);
                     return emailDetails;
                 }

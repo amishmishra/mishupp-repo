@@ -7,9 +7,8 @@ import Vuetify from "vuetify";
 Vue.use(Vuetify);
 import "vuetify/dist/vuetify.min.css";
 import "material-design-icons-iconfont/dist/material-design-icons.css";
-import { Datetime } from 'vue-datetime';
- 
-Vue.component('datetime', Datetime);
+import 'vue-datetime/dist/vue-datetime.css';
+
 
 import Home from "./pages/Home.vue";
 import Login from "./pages/Login.vue";
